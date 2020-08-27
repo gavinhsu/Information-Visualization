@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+<body style="background-color:rgba(120,18,30,0.4)">
+
+	<style>
+		#menu{
+			margin-left:700px;
+			padding-top: 40px;
+		}
+	</style>
+
+	<style>
+		.xAxis line{
+  			fill:none;
+  			stroke:rgba(0,0,0,.1);
+		}
+
+		.xAxis path{
+ 			fill: none;
+ 			stroke: black;
+  			shape-rendering: crispEdges;
+		}
+
+		.xAxis text{
+  			font-family: 微軟正黑體;
+  			font-size: 13px;
+		}
+	</style>
+
+
+	<form id="menu">
+		<h1 style="font-family: 微軟正黑體">台灣歷年來犯罪案件數量</h1>
+		<h3 style="font-family: 微軟正黑體">資料來源:內政部開放平臺</h3>
+		<h6 style="font-family: 微軟正黑體">https://data.moi.gov.tw/MoiOD/Data/DataDetail.aspx?oid=618AFF0F-3D58-4FD3-818D-B8E279BCF436</h6>
+		<select  id="myselect" name="年份" onchange="draw()">
+			<option value="title">請選擇年份</option>
+			<option value=0>民國101年</option>
+			<option value=1>民國102年</option>
+			<option value=2>民國103年</option>
+			<option value=3>民國104年</option>
+			<option value=4>民國105年</option>
+			<option value=5>民國106年</option>
+			<option value=6>民國107年</option>
+			<option value=7>民國108年</option>
+			<option value="total">圖表設計</option>
+		</select>
+	</form>
+	<script>
+
+		dataSet = [[
+		{crime:"強盜",num:564},
+		{crime:"搶奪",num:711},
+		{crime:"強制性交",num:1515},
+		{crime:"汽車竊盜",num:8577},
+		{crime:"住宅竊盜",num:8377},
+		{crime:"毒品",num:44001},
+		{crime:"機車竊盜",num:30346}],
+
+		[
+		{crime:"強盜",num:465},
+		{crime:"搶奪",num:536},
+		{crime:"強制性交",num:1019},
+		{crime:"汽車竊盜",num:6535},
+		{crime:"住宅竊盜",num:6272},
+		{crime:"毒品",num:40130},
+		{crime:"機車竊盜",num:23286}],
+
+		[
+		{crime:"強盜",num:388},
+		{crime:"搶奪",num:447},
+		{crime:"強制性交",num:950},
+		{crime:"汽車竊盜",num:6363},
+		{crime:"住宅竊盜",num:5479},
+		{crime:"毒品",num:38369},
+		{crime:"機車竊盜",num:20421}],
+
+		[
+		{crime:"強盜",num:381},
+		{crime:"搶奪",num:359},
+		{crime:"強制性交",num:745},
+		{crime:"汽車竊盜",num:5638},
+		{crime:"住宅竊盜",num:4996},
+		{crime:"毒品",num:49576},
+		{crime:"機車竊盜",num:17068}],
+
+		[
+		{crime:"強盜",num:320},
+		{crime:"搶奪",num:323},
+		{crime:"強制性交",num:551},
+		{crime:"汽車竊盜",num:4500},
+		{crime:"住宅竊盜",num:4805},
+		{crime:"毒品",num:54873},
+		{crime:"機車竊盜",num:14403}],
+
+		[
+		{crime:"強盜",num:289},
+		{crime:"搶奪",num:234},
+		{crime:"強制性交",num:302},
+		{crime:"汽車竊盜",num:3086},
+		{crime:"住宅竊盜",num:4432},
+		{crime:"毒品",num:58515},
+		{crime:"機車竊盜",num:12082}],
+
+		[
+		{crime:"強盜",num:207},
+		{crime:"搶奪",num:192},
+		{crime:"強制性交",num:228},
+		{crime:"汽車竊盜",num:2235},
+		{crime:"住宅竊盜",num:3682},
+		{crime:"毒品",num:55480},
+		{crime:"機車竊盜",num:9686}],
+
+		[
+		{crime:"強盜",num:192},
+		{crime:"搶奪",num:137},
+		{crime:"強制性交",num:201},
+		{crime:"汽車竊盜",num:1456},
+		{crime:"住宅竊盜",num:3272},
+		{crime:"毒品",num:47035},
+		{crime:"機車竊盜",num:6058}]]
+
+		pp = [
+		"民國101年，",
+		"民國102年，",
+		"民國103年，",
+		"民國104年，",
+		"民國105年，",
+		"民國106年，",
+		"民國107年，",
+		"民國108年，",
+		]
+
+
+
+		var s = d3.select('body')
+          .append('svg')
+          .attr({
+            'width':800,
+            'height':400,
+            'transform':'translate(300,40)',
+		 })
+
+
+
+
+
+
+
+
+
+     function draw(){
+     	d3.selectAll('rect').remove()
+     	d3.selectAll('text').remove()
+
+     	var index = document.getElementById('myselect').value
+     	if(index=="total"){
+
+     		s.append('text')
+     		.text('選用長條圖的目的是，希望透過長條圖讓讀者可以更快速的比較每年不同的犯罪類別之犯罪數量，')
+     		.attr('transform','translate(100,30)')
+     		.attr('font-family','微軟正黑體')
+     		s.append('text')
+     		.text('因為長度對於人類來說是1:1的accuracy，因此使用長條圖能更直接、更正確的感受數量差別，')
+     		.attr('transform','translate(100,55)')
+     		.attr('font-family','微軟正黑體')
+     		s.append('text')
+     		.text('此外，我選用不同的color saturation來作為visual magnitude channel，')
+     		.attr('transform','translate(100,80)')
+     		.attr('font-family','微軟正黑體')
+     		s.append('text')
+     		.text('根據犯罪數量的不同分為三個等級:小於1000件、超過1000件、超過10000件，')
+     		.attr('transform','translate(100,105)')
+     		.attr('font-family','微軟正黑體')
+     		s.append('text')
+     		.text('目的是為了讓讀者除了數字的大小，還有顏色的區別，可以一眼就看出案件數量的程度差距。')
+     		.attr('transform','translate(100,130)')
+     		.attr('font-family','微軟正黑體')
+
+     		s.append('text')
+     		.text('同時，根據empirical evidence我們可以知道，使用2D的方法呈現，能夠讓讀者更能去辨別距離、')
+     		.attr('transform','translate(100,200)')
+     		.attr('font-family','微軟正黑體')
+     		s.append('text')
+     		.text('角度等的不同，且除了技術上的能力不足外，選用3D圖表，需要仔細的評估，')
+     		.attr('transform','translate(100,225)')
+     		.attr('font-family','微軟正黑體')
+     		s.append('text')
+     		.text('且有很多視角、遮擋的問題，因此，此網頁圖表，我選擇使用安全的2D圖表。')
+     		.attr('transform','translate(100,250)')
+     		.attr('font-family','微軟正黑體')
+     		s.append('text')
+     		.text('最後，利用動畫的呈現，讓讀者認為此圖表更加的豐富、有趣。')
+     		.attr('transform','translate(100,320)')
+     		.attr('font-family','微軟正黑體')
+     	}
+
+		var numScale = d3.scale.linear()
+			.domain([0,60000])
+			.range([0,600])
+
+		var Xaxis = d3.svg.axis()
+			.scale(numScale)
+			.ticks(5)
+			.tickFormat(function(d){return d+'件'})
+
+
+
+
+		s.selectAll('rect')
+
+		 .data(dataSet[index])
+		 .enter()
+		 .append('rect')
+		 .attr({
+		 	'fill':function(d){
+		 		if(d.num>10000){return 'rgba(199,70,40,1.3)'}else if(d.num<=10000 && d.num>1000){return 'rgba(198,70,40,0.58)'}else{return 'rgba(199,70,40,0.15)'}},
+		 	'width':0,
+		 	'height':35,
+		 	'x':100,
+		 	'y':function(d,i){
+		 		return i*45+30
+		 	}
+		 })
+		 .transition()
+		 .duration(900)
+		 .attr({
+		  'width':function(d){
+		    return numScale(d.num);
+		  }
+		 })
+
+
+		 s.selectAll('text')
+		 	.data(dataSet[index])
+		 	.enter()
+		 	.append('text')
+		 	.text(function(d){
+		 		return d.num
+		 	})
+			.attr({
+				'fill':function(d){
+					if(d.num>10000){
+						return 'rgba(180,20,50,1)'
+					}else{
+						return 'black'
+					}
+				},
+				'x':100,
+				'y':function(d,i){
+					return i*45+50
+				},
+				'font-family':'微軟正黑體',
+				'font-size':'13px'
+			})
+			.transition()
+			.duration(900)
+			.attr({
+				'x':function(d){
+					return numScale(d.num)+105
+				}
+			})
+			.tween('number',function(d){
+				var i = d3.interpolateRound(0,d.num)
+				return function(t){
+					this.textContent = i(t)
+				}
+			})
+
+
+
+
+			s.append('text').text('強盜').attr('transform','translate(25,58)').attr('font-family','微軟正黑體')
+			s.append('text').text('搶奪').attr('transform','translate(25,98)').attr('font-family','微軟正黑體')
+			s.append('text').text('強制性交').attr('transform','translate(10,145)').attr('font-family','微軟正黑體')
+			s.append('text').text('汽車竊盜').attr('transform','translate(10,188)').attr('font-family','微軟正黑體')
+			s.append('text').text('房屋竊盜').attr('transform','translate(10,233)').attr('font-family','微軟正黑體')
+			s.append('text').text('毒品').attr('transform','translate(25,278)').attr('font-family','微軟正黑體')
+			s.append('text').text('機車竊盜').attr('transform','translate(10,320)').attr('font-family','微軟正黑體')
+			s.append('text').text('數量/年').attr('transform','translate(690,395)').attr('font-family','微軟正黑體').attr('font-size','12.5px')
+
+
+			var aaxis = s.append('g')
+			.call(Xaxis)
+			.attr('transform','translate(100,350)')
+			.classed('xAxis',true)
+
+		}
+
+
+
+	</script>
+
+
+</body>
+</html>

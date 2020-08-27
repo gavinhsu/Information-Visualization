@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+
+<head>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+
+</head>
+
+<body bgcolor="#E6E6FA">
+  <h2>NBA Player Salary Dataset (2017 - 2018)）</h2>
+  <p style="display: inline;">資料來源：</p>
+  <a href="https://www.kaggle.com/jameslko/gun-violence-data">https://www.kaggle.com/koki25ando/salary<br></a>
+  <P>設計選擇（ch5.）：<br>
+    因為各球員的年薪薪資以百萬為單位來呈現的情況下差距不大，因此將不同的球員薪資皆以不同的顏色來區別，並附上確切的薪資數字，可以依此大略判斷長條圖的間距
+    </P>
+  <P>經驗法則（ch6.）：<br>
+      取前四十名的球員並且將每十名作一個區間，避免因一次顯示過多資料而增加觀看的複雜度，且這樣的過濾方式能較容易比較薪資相近的球員。
+    </P>
+  <P>設計說明：<br>這是美國NBA球星各自於2017-2018之間的薪資資料，使用按鈕來選擇不同薪水排名的球員，各自都有不同的顏色代表，能夠一目了然得知那些知名球星到底賺了多少錢。</P>
+  <h4 style="display: inline;">名次 :&nbsp;&nbsp; </h4>
+  <button id="btn" style="margin-top: 18px;border:2px #e7cb94 double;">1st-10th</button>
+  <button id="btn2" style="margin-top: 18px;border:2px #e7cb94 double;">11th-20th</button>
+  <button id="btn3" style="margin-top: 18px;border:2px #e7cb94 double;">21st-30th</button>
+  <button id="btn4" style="margin-top: 18px;border:2px #e7cb94 double;">31st-40th</button>
+  <script>
+
+    var data10 = [{
+      id: 11,
+      player: 'Stephen Curry',
+      num: 34.682550,
+      type: 1 - 10
+    }, {
+      id: 12,
+      player: 'LeBron James',
+      num: 33.285709,
+      type: 1 - 10
+    }, {
+      id: 13,
+      player: 'Paul Millsap',
+      num: 31.269231,
+      type: 1 - 10
+    }, {
+      id: 14,
+      player: 'Gordon Hayward',
+      num: 29.727900,
+      type: 1 - 10
+    }, {
+      id: 15,
+      player: 'Blake Griffin',
+      num: 29.512900,
+      type: 1 - 10
+    }, {
+      id: 16,
+      player: 'Kyle Lowry',
+      num: 28.703704,
+      type: 1 - 10
+    }, {
+      id: 17,
+      player: 'Russell Westbrook',
+      num: 28.530608,
+      type: 1 - 10
+    }, {
+      id: 18,
+      player: 'Mike Conley',
+      num: 28.530608,
+      type: 1 - 10
+    }, {
+      id: 19,
+      player: 'James Harden',
+      num: 28.299399,
+      type: 1 - 10
+    }, {
+      id: 20,
+      player: 'DeMar DeRozan',
+      num: 27.739975,
+      type: 1 - 10
+    }]
+    var data20 = [{
+      id: 11,
+      player: 'Al Horford',
+      num: 27.734405,
+      type: 11 - 20
+    }, {
+      id: 12,
+      player: 'Carmelo Anthony',
+      num: 26.243760,
+      type: 11 - 20
+    }, {
+      id: 13,
+      player: 'Damian Lillard',
+      num: 26.153057,
+      type: 11 - 20
+    }, {
+      id: 14,
+      player: 'Jrue Holiday	',
+      num: 25.686667,
+      type: 11 - 20
+    }, {
+      id: 15,
+      player: 'Chris Bosh',
+      num: 25.289390,
+      type: 11 - 20
+    }, {
+      id: 16,
+      player: 'Kevin Durant',
+      num: 25.000007,
+      type: 11 - 20
+    }, {
+      id: 17,
+      player: 'Otto Porter',
+      num: 24.773250,
+      type: 11 - 20
+    }, {
+      id: 18,
+      player: 'Chris Paul',
+      num: 24.599495,
+      type: 11 - 20
+    }, {
+      id: 19,
+      player: 'C.J. McCollum',
+      num: 23.962573,
+      type: 11 - 20
+    }, {
+      id: 20,
+      player: 'Bradley Beal',
+      num: 23.775506,
+      type: 11 - 20
+    },]
+    var data30 = [{
+      id: 11,
+      player: 'Anthony Davis',
+      num: 23.775506,
+      type: 21 - 30
+    }, {
+      id: 12,
+      player: 'Andre Drummond',
+      num: 23.775506,
+      type: 21 - 30
+    }, {
+      id: 13,
+      player: 'Hassan Whiteside',
+      num: 23.775506,
+      type: 21 - 30
+    }, {
+      id: 14,
+      player: 'Dwight Howard',
+      num: 23.500000,
+      type: 21 - 30
+    }, {
+      id: 15,
+      player: 'Chandler Parsons',
+      num: 23.112004,
+      type: 21 - 30
+    }, {
+      id: 16,
+      player: '	Harrison Barnes',
+      num: 23.112004,
+      type: 21 - 30
+    }, {
+      id: 17,
+      player: 'J.J. Redick',
+      num: 23.000007,
+      type: 21 - 30
+    }, {
+      id: 18,
+      player: 'Marc Gasol',
+      num: 22.642350,
+      type: 21 - 30
+    }, {
+      id: 19,
+      player: 'Kevin Love',
+      num: 22.642350,
+      type: 21 - 30
+    }, {
+      id: 20,
+      player: 'Brook Lopez',
+      num: 22.642350,
+      type: 21 - 30
+    },]
+    var data40 = [{
+      id: 11,
+      player: 'DeAndre Jordan',
+      num: 22.642350,
+      type: 30 - 40
+    }, {
+      id: 12,
+      player: 'Steven Adams',
+      num: 22.471910,
+      type: 30 - 40
+    }, {
+      id: 13,
+      player: 'Giannis Antetokounmpo',
+      num: 22.471910,
+      type: 30 - 40
+    }, {
+      id: 14,
+      player: 'Nicolas Batum',
+      num: 22.434783,
+      type: 30 - 40
+    }, {
+      id: 15,
+      player: 'Rudy Gobert',
+      num: 21.974719,
+      type: 30 - 40
+    }, {
+      id: 16,
+      player: 'LaMarcus Aldridge',
+      num: 21.461010,
+      type: 30 - 40
+    }, {
+      id: 17,
+      player: 'Victor Oladipo',
+      num: 21.000007,
+      type: 30 - 40
+    }, {
+      id: 18,
+      player: 'Enes Kanter',
+      num: 20.566802,
+      type: 30 - 40
+    }, {
+      id: 19,
+      player: 'Danilo Gallinari',
+      num: 20.559599,
+      type: 30 - 40
+    }, {
+      id: 20,
+      player: 'Serge Ibaka',
+      num: 20.061729,
+      type: 30 - 40
+    },]
+
+    var height = 1000
+    var data1 = d3.selectAll('#btn')
+      .on('click', function () {
+
+        draw(data10)
+      })
+    var data2 = d3.selectAll('#btn2')
+      .on('click', function () {
+
+        draw(data20)
+      })
+    var data3 = d3.selectAll('#btn3')
+      .on('click', function () {
+
+        draw(data30)
+      })
+    var data4 = d3.selectAll('#btn4')
+      .on('click', function () {
+
+        draw(data40)
+      })
+    var s = d3.select('body')
+      .append('svg')
+      .attr({
+        'height': height,
+        'width': 1000
+      });
+    var ScaleY = d3.scale.linear()
+      .range([height,0])
+      .domain([0, 40]);
+
+    var color = d3.scale.category20c()
+
+    function draw(data) {
+      d3.selectAll('rect').remove();
+      d3.selectAll('text').remove();
+      s.selectAll('player')
+        .data(data)
+
+        .enter()
+        .append('text')
+        .attr({
+          'fill': '#000',
+          'text-anchor': 'end',
+          'y': function(d){
+            if (d.id%2!=0){
+              return 550
+            }else{
+              return 580
+            }
+          },
+          'x': function (d) {
+
+            return (d.id-9.5) * 70;
+          }
+        }).text(function (d) {
+          return d.player
+        }).style({
+          'font-size': '12px'
+        });
+      s.selectAll('rect')
+        .data(data)
+        .enter()
+        .append('rect')
+        .attr({
+          'fill': function (d) {
+
+            if (d.num > 34) {
+              return '#5254a3';
+            } else if (d.num < 34 && d.num > 33) {
+              return '#5254a3';
+            } else if (d.num < 33 && d.num > 31) {
+              return '#6b6ecf';
+            } else if (d.num < 31 && d.num > 29.7) {
+              return '#9c9ede';
+            } else if (d.num < 29.7 && d.num > 29.5) {
+              return '#637939';
+            } else if (d.num < 29.5 && d.num > 28.7) {
+              return '#8ca252';
+            } else if (d.num < 28.7 && d.num > 28.5) {
+              return '#b5cf6b';
+            } else if (d.num < 28.5 && d.num > 28.2) {
+              return '#e7ba52';
+            } else if (d.num < 27.7 && d.num > 26.2) {
+              return '#e7cb94';
+            } else if (d.num < 26.2 && d.num > 26.1) {
+              return '#bd9e39';
+            } else if (d.num < 26.1 && d.num > 25.6) {
+              return '#843c39';
+            } else if (d.num < 25.2 && d.num > 25) {
+              return '#ad494a';
+            } else if (d.num < 29.7 && d.num > 29.5) {
+              return '#d6616b';
+            } else if (d.num < 25 && d.num > 24.7) {
+              return '#e7969c';
+            } else if (d.num < 24.7 && d.num > 24.5) {
+              return '#7b4173';
+            } else if (d.num < 24.5 && d.num > 24) {
+              return '#a55194';
+            } else if (d.num < 24 && d.num > 23.7) {
+              return '#ce6dbd';
+            } else if (d.num < 23.7 && d.num > 23.6) {
+              return '#de9ed6';
+            } else if (d.num < 23.6 && d.num > 23.2) {
+              return '#d62728';
+            } else if (d.num < 23.2 && d.num > 23.1) {
+              return '#ff9896';
+            } else if (d.num < 23.1 && d.num > 23) {
+              return '#9467bd';
+            } else if (d.num < 23 && d.num > 22.6) {
+              return '#98df8a';
+            } else if (d.num < 22.6 && d.num > 22.45) {
+              return '#2ca02c';
+            } else if (d.num < 22.45 && d.num > 22.4) {
+              return '#ffbb78';
+            } else if (d.num < 22.4 && d.num > 21.5) {
+              return '#ff7f0e';
+            } else if (d.num < 21.5 && d.num > 21.4) {
+              return '#aec7e8';
+            } else if (d.num < 21.4 && d.num > 21) {
+              return '#1f77b4';
+            } else if (d.num < 21 && d.num > 20.5) {
+              return '#c5b0d5';
+            } else {
+              return '#9467bd';
+            }
+          },
+          'y': function (d) {
+            return ScaleY(d.num)-100;
+          },
+          'height': function (d) {
+            return  600 -ScaleY(d.num);
+          },
+
+          'width': 20,
+
+          'x': function (d) {
+            return (d.id-10) * 70;
+          }
+        })
+
+                s.selectAll('num')
+                    .data(data)
+                    .enter()
+                    .append('text')
+                    .text(function(d) {
+                        return d.num;
+                    }).style({
+                      'font-size': '10px'
+                    })
+                    .attr({
+                        'fill': '#000',
+                        'y':function(d){
+                          return ScaleY(d.num)-110;
+                        },
+                        'x': function(d) {
+                            return (d.id -10.3) * 70;
+                        }})}
+
+
+  </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>106年台北市人口密度圓餅圖</title>
+        <div style="text-align:left;"><h1>106年台北市人口密度圓餅圖</h1>
+
+        </div>
+  </head>
+  <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <body>
+    <p>資料來源:<a href="https://data.moi.gov.tw/MoiOD/Data/DataContent.aspx?oid=E7CE3815-30E1-4B92-A337-9C026EBC017F" target="連結目標">https://data.moi.gov.tw/MoiOD/Data/DataContent.aspx?oid=E7CE3815-30E1-4B92-A337-9C026EBC017F</a></p>
+    <p>資料與視覺化分析結果:</p>
+    <p>以圓餅圖呈現台北市各區之人口密度，能用來清楚呈現各區人口密度佔台北市的比例，士林區、北投區、內湖區、南港區、文山區相較其他七個區而言，比例較小。</p>
+    <p>由此可見，台北身為台灣的最繁榮的直轄市，這些地區依然有可以開發的空間，吸引更多人居住。</p>
+    <p>換一個角度思考，若能致力於這些地區的開發，也能吸引鄰近的居民遷移而使各區的人口密度平衡。</p>
+    <script>
+      var width = 550
+      height = 550
+      margin = 100
+
+      var radius = Math.min(width, height) / 2 - margin
+
+      var svg = d3.select("body")
+        .append("svg:svg")
+          .attr("width", width)
+          .attr("height", height)
+        .append("g")
+          .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+      var density = {松山:22286, 士林:4622, 大同:22754, 信義:20143, 北投:4513, 大安:27283,  內湖:9113, 萬華:21678, 南港:5593, 中正:20981, 文山:8709, 中山:16862}
+
+      var color = d3.scaleOrdinal()
+        .domain(density)
+        .range(d3.schemeSet2)
+
+      var pie = d3.pie()
+        .sort(null)
+        .value(function(d) {return d.value; })
+
+      var data_ready = pie(d3.entries(density))
+
+      var arcGenerator = d3.arc()
+        .innerRadius(20)
+        .outerRadius(radius+0)
+
+// Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
+svg
+  .selectAll('mySlices')
+  .data(data_ready)
+  .enter()
+  .append('path')
+    .attr('d', arcGenerator)
+    .attr('fill', function(d){ return(color(d.data.key)) })
+    .attr("stroke", "black")
+    .style("stroke-width", "2px")
+    .style("opacity", 0.7)
+
+// Now add the annotation. Use the centroid method to get the best coordinates
+svg
+  .selectAll('mySlices')
+  .data(data_ready)
+  .enter()
+  .append('text')
+  .text(function(d){ return d.data.key + "區" +d.data.value})
+  .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")";  })
+  .style("text-anchor", "middle")
+  .style("font-size", 12)
+</script>
+
+  </body>
+</html>

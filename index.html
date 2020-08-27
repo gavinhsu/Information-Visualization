@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+
+<head>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+
+</head>
+
+<body bgcolor="#FFFFE0">
+    <h2>美國2014-2017槍擊死亡數量前十大州（單位：人）</h2>
+    <p style="display: inline;">資料來源：</p>
+    <a href="https://www.kaggle.com/jameslko/gun-violence-data">https://www.kaggle.com/jameslko/gun-violence-data<br></a>
+    <h4 style="display: inline;">年份 :&nbsp;&nbsp; </h4>
+    <button id="btn" style="margin-top: 11px;">2014</button>
+    <button id="btn2">2015</button>
+    <button id="btn3">2016</button>
+    <button id="btn4">2017</button>
+    <p style='margin-left:60px;'>州名</p>
+    <script>
+        // var data2013 = [
+        //     {id:1,state:'California',num:46,type:2013},{id:2,state:'Texas',num:24,type:2013},{id:3,state:'Florida',num:22,type:2013},{id:4,state:'New York',num:15,type:2013},{id:5,state:'Illinois',num:14,type:2013},
+        //     {id:6,state:'Oklahoma',num:14,type:2013},{id:7,state:'Tennessee',num:14,type:2013},{id:8,state:'Pennsylvania',num:13,type:2013},{id:9,state:'District of Columbia',num:12,type:2013},{id:10,state:'New Jersey',num:12,type:2013},]
+        var data2014 = [{
+            id: 11,
+            state: 'California',
+            num: 1320,
+            type: 2014
+        }, {
+            id: 12,
+            state: 'Texas',
+            num: 1094,
+            type: 2014
+        }, {
+            id: 13,
+            state: 'Florida',
+            num: 873,
+            type: 2014
+        }, {
+            id: 14,
+            state: 'Illinois',
+            num: 637,
+            type: 2014
+        }, {
+            id: 15,
+            state: 'Pennsylvania',
+            num: 547,
+            type: 2014
+        }, {
+            id: 16,
+            state: 'Georgia',
+            num: 522,
+            type: 2014
+        }, {
+            id: 17,
+            state: 'Ohio',
+            num: 494,
+            type: 2014
+        }, {
+            id: 18,
+            state: 'North Carolina',
+            num: 487,
+            type: 2014
+        }, {
+            id: 19,
+            state: 'Louisiana',
+            num: 465,
+            type: 2014
+        }, {
+            id: 20,
+            state: 'New York',
+            num: 397,
+            type: 2014
+        }]
+        var data2015 = [{
+            id: 11,
+            state: 'California',
+            num: 1204,
+            type: 2015
+        }, {
+            id: 12,
+            state: 'Texas',
+            num: 1136,
+            type: 2015
+        }, {
+            id: 13,
+            state: 'Florida',
+            num: 796,
+            type: 2015
+        }, {
+            id: 14,
+            state: 'Illinois',
+            num: 688,
+            type: 2015
+        }, {
+            id: 15,
+            state: 'Georgia',
+            num: 595,
+            type: 2015
+        }, {
+            id: 16,
+            state: 'Ohio',
+            num: 537,
+            type: 2015
+        }, {
+            id: 17,
+            state: 'Pennsylvania',
+            num: 508,
+            type: 2015
+        }, {
+            id: 18,
+            state: 'Louisiana',
+            num: 501,
+            type: 2015
+        }, {
+            id: 19,
+            state: 'North Carolina',
+            num: 493,
+            type: 2015
+        }, {
+            id: 20,
+            state: 'Missouri',
+            num: 492,
+            type: 2015
+        }, ]
+        var data2016 = [{
+            id: 11,
+            state: 'Texas',
+            num: 1313,
+            type: 2016
+        }, {
+            id: 12,
+            state: 'California',
+            num: 1265,
+            type: 2016
+        }, {
+            id: 13,
+            state: 'Florida',
+            num: 1001,
+            type: 2016
+        }, {
+            id: 14,
+            state: 'Illinois',
+            num: 946,
+            type: 2016
+        }, {
+            id: 15,
+            state: 'Ohio',
+            num: 628,
+            type: 2016
+        }, {
+            id: 16,
+            state: 'North Carolina',
+            num: 576,
+            type: 2016
+        }, {
+            id: 17,
+            state: 'Pennsylvania',
+            num: 556,
+            type: 2016
+        }, {
+            id: 18,
+            state: 'Georgia',
+            num: 548,
+            type: 2016
+        }, {
+            id: 19,
+            state: 'Louisiana',
+            num: 527,
+            type: 2016
+        }, {
+            id: 20,
+            state: 'Missouri',
+            num: 515,
+            type: 2016
+        }, ]
+        var data2017 = [{
+                id: 11,
+                state: 'California',
+                num: 1423,
+                type: 2017
+            }, {
+                id: 12,
+                state: 'Texas',
+                num: 1169,
+                type: 2017
+            }, {
+                id: 13,
+                state: 'Illinois',
+                num: 959,
+                type: 2017
+            }, {
+                id: 14,
+                state: 'Florida',
+                num: 950,
+                type: 2017
+            }, {
+                id: 15,
+                state: 'Ohio',
+                num: 700,
+                type: 2017
+            }, {
+                id: 16,
+                state: 'Georgia',
+                num: 658,
+                type: 2017
+            }, {
+                id: 17,
+                state: 'Pennsylvania',
+                num: 635,
+                type: 2017
+            }, {
+                id: 18,
+                state: 'Missouri',
+                num: 609,
+                type: 2017
+            }, {
+                id: 19,
+                state: 'North Carolina',
+                num: 556,
+                type: 2017
+            }, {
+                id: 20,
+                state: 'Louisiana',
+                num: 549,
+                type: 2017
+            }, ]
+            //   {id:51,state:'Texas',num:310,type:2018},{id:52,state:'California',num:304,type:2018},{id:53,state:'Florida',num:267,type:2018},{id:54,state:'Illinois',num:165,type:2018},{id:55,state:'Ohio',num:139,type:2018},
+            //   {id:56,state:'Pennsylvania',num:136,type:2018},{id:57,state:'Alabama',num:135,type:2018},{id:58,state:'Louisiana',num:129,type:2018},{id:59,state:'Georgia',num:128,type:2018},{id:60,state:'Missouri',num:128,type:2018},
+
+        var data1 = [{
+                year: '2013',
+                num: 317
+            }, {
+                year: '2014',
+                num: 12557
+            }, {
+                year: '2015',
+                num: 13484
+            }, {
+                year: '2016',
+                num: 15066
+            }, {
+                year: '2017',
+                num: 15511
+            }, {
+                year: '2018',
+                num: 3533
+            }]
+            // var pic1 = d3.nest()
+            //             .key(function(d){return d.type})
+            //             .entries(data2015)
+            // console.log(pic1)
+        var width = 1400
+        var data1 = d3.selectAll('#btn')
+                            .on('click',function(){
+                               
+                                draw(data2014)
+                            })
+        var data2 = d3.selectAll('#btn2')
+                            .on('click',function(){
+                               
+                                draw(data2015)
+                            })
+        var data3 = d3.selectAll('#btn3')
+                            .on('click',function(){
+                               
+                                draw(data2016)
+                            })
+        var data4 = d3.selectAll('#btn4')
+                            .on('click',function(){
+                               
+                                draw(data2017)
+                            })
+        var s = d3.select('body')
+            .append('svg')
+            .attr({
+                'width': width,
+                'height': 343
+            });
+        var ScaleX = d3.scale.linear()
+            .range([0, width])
+            .domain([0, 2000]);
+        function draw(data) {
+                d3.selectAll('rect').remove();
+                d3.selectAll('text').remove()
+                s.selectAll('state')
+                    .data(data)
+
+                .enter()
+                    .append('text')
+                    .attr({
+                        'fill': '#000',
+                        'text-anchor': 'end',
+                        'x': 90,
+                        'y': function(d) {
+
+                            return (d.id - 10) * 35 - 18;
+                        }
+                    }).text(function(d) {
+                        return d.state
+                    }).style({
+                        'font-size': '12px'
+                    });
+                s.selectAll('rect')
+                    .data(data)
+                    .enter()
+                    .append('rect')
+                    .attr({
+                        'fill': function(d){
+      if(d.num>1000){
+        return '#c00';
+      
+      }else if(d.num<1000&&d.num>500){
+        return '#FF8800';
+      }else{
+          return'#FFFF33'
+      }
+    },
+                        'width': 0,
+                        'height': 20,
+                        'x': 100,
+                        'y': function(d) {
+                            return (d.id - 11) * 35;
+                        }
+                    })
+                    .transition()
+                    .duration(1500)
+                    .attr({
+                        'width': function(d) {
+                            return ScaleX(d.num);
+                        }
+                    });
+                s.selectAll('num')
+                    .data(data)
+                    .enter()
+                    .append('text')
+                    .text(function(d) {
+                        return d.num;
+                    })
+                    .attr({
+                        'fill': '#000',
+                        // 'x': function(d) {
+                        //     return ScaleX(d.num) + 103;
+                        // },
+                        'x':103,
+                        'y': function(d) {
+                            return (d.id - 10) * 35 - 18;
+                        }})
+                        .transition()
+                    .duration(1500)
+                    .attr({
+                    'x':function(d){
+                    return ScaleX(d.num) +103;
+                                        }
+                                                 })
+                        .tween('num',function(d){
+    var i = d3.interpolateRound(0, d.num);
+      return function(t) {
+      this.textContent = i(t);
+    };
+ })
+}
+  </script>
+ 
+    
+    <P>設計選擇（ch5.）：<br>
+        用超過一定數量的地區（此圖為1000及500人）其長條圖的長條顏色會改變的方式，使他與其他沒超過的地區相比起來會更明顯，且用紅色跟橘色這種比較警示的顏色代表當地槍擊死亡的嚴重程度。
+        </P>
+    <P>經驗法則（ch6.）：<br>
+        以按下不同按鈕呈現不同年份數據的方式(Filter)，來縮減觀看者一次接收的數字量，讓觀看者可以針對他們想看的年份做直接的篩選，或是可以藉由來回轉換對於數據之間的不同做比較。
+        </P>
+        <P>設計說明：<br>這是美國各州槍擊案死亡數量的前十排名，資料由2014-2017，且以按鈕來篩選不同年份的資料，並在超過1000名死亡數的州，用紅色來顯示其資料，從此圖不難看出佔據前十大的州，多半是同樣的，因此像加州或是德州這些地區，就得需要多執行管制槍擊案的作為。</P>
+    </body>
+</html>
